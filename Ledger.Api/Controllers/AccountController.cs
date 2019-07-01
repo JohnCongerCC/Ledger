@@ -26,5 +26,15 @@ namespace Ledger.Api.Controllers
         [Route("NewAccount")]
         public void Post(string OwnerName, string AccountName)
        => Repo.AddAccount(OwnerName, AccountName);
+
+        [HttpPost]
+        [Route("NewEntry")]
+        public void Post(string OwnerName, string AccountName, string Ticker, decimal Amount, DateTime date)
+      => Repo.AddEntry(OwnerName, AccountName, Ticker, Amount, date);
+
+        [HttpGet]
+        [Route("GetBalance")]
+        public async Task<IActionResult> Get(string OwnerName, string AccountName, string Ticker)
+        => Ok(await Repo.GetBalanceAsync(OwnerName, AccountName, Ticker));
     }
 }

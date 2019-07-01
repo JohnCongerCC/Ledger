@@ -10,6 +10,8 @@ namespace Ledger
     {
         public static readonly Lazy<MemoryDB> Instance = new Lazy<MemoryDB>(() => new MemoryDB());
         public List<AccountOwner> Owners { get; set; } = new List<AccountOwner>();
+        public List<Asset> Assets { get; set; } = new List<Asset>() { new Asset { Ticker = "BTC" } };
+        public List<AccountEntry> AccountEntries { get; set; } = new List<AccountEntry>();
         public async Task<List<AccountOwner>> GetOwnersAsync()
         {
             var t = new Task<List<AccountOwner>>(() => { return Owners; });
@@ -31,8 +33,39 @@ namespace Ledger
                 Owners.Add(owner);
             }
             if (owner.Accounts == null)
-                owner.Accounts = new List<Models.Account>();
-            owner.Accounts.Add(new Models.Account { Name = accountName });
+                owner.Accounts = new List<Account>();
+
+            owner.Accounts.Add(new Account { Name = accountName, Owner = owner,
+                                             Entries = AccountEntries.Where(w => w.Account.Name == ownerName 
+                                                                                            && w.Account.Owner.Name == ownerName).OrderBy(o => o.Date).ToList()});
+        }
+
+        public void AddEntry(string ownerName, string accountName, string ticker, decimal amount, DateTime date)
+        {
+            var asset = Assets.Where(w => w.Ticker == ticker).FirstOrDefault();
+            if (asset == null)
+                throw new Exception("unable to find asset with ticker:" + ticker);
+
+            var owner = Owners.Where(w => w.Name == ownerName).FirstOrDefault();
+            if (owner == null)
+                throw new Exception("unable to find account owner");
+
+            var account = owner.Accounts.Where(w => w.Name == accountName).FirstOrDefault();
+            if (account == null)
+                throw new Exception("unable to find account owned by:" + owner.Name);
+
+            AccountEntries.Add(new AccountEntry { Account = account, Asset = asset, Date = date, Amount = amount });
+        }
+
+        public async Task<decimal> GetBalanceAsync(string ownerName, string accountName, string ticker)
+        {
+            var t = new Task<decimal>(() =>
+            {
+                var Total = AccountEntries.Where(w => w.Account.Owner.Name == ownerName && w.Account.Name == accountName && w.Asset.Ticker == ticker).Sum(s => s.Amount);
+                return Total;
+            });
+            t.Start();
+            return await t;
         }
     }
 }

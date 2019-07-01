@@ -10,9 +10,12 @@ namespace Ledger
     {
         //Async Gets
         Task<List<Models.AccountOwner>> GetOwnersAsync();
+        Task<decimal> GetBalanceAsync(string ownerName, string accountName, string ticker);
 
         List<AccountOwner> Owners { get; set; }
         void AddOwner(string name);
         void AddAccount(string ownerName, string accountName);
+        void AddEntry(string ownerName, string accountName, string ticker, decimal amount, DateTime date);
+        
     }
 }

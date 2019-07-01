@@ -17,7 +17,8 @@ namespace Ledger.Models
     {
         public string Name { get; set; }
         public AccountOwner Owner { get; set; }
-        
+        public List<AccountEntry> Entries { get; set; }
+
     }
     public class AccountEntry
     {
@@ -25,5 +26,6 @@ namespace Ledger.Models
         public Asset Asset { get; set; }
         public string Note { get; set; }
         public decimal Amount { get; set; }
+        public System.DateTime Date { get; set; }
     }
 }
