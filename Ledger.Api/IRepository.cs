@@ -13,5 +13,6 @@ namespace Ledger
 
         List<AccountOwner> Owners { get; set; }
         void AddOwner(string name);
+        void AddAccount(string ownerName, string accountName);
     }
 }

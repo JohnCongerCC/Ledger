@@ -17,8 +17,14 @@ namespace Ledger.Api.Controllers
         public async Task<IActionResult> Get()
         => Ok(await Repo.GetOwnersAsync());
 
-        [HttpPost] 
+        [HttpPost]
+        [Route("NewOwner")]
         public void Post(string OwnerName)
        => Repo.AddOwner(OwnerName);
+
+        [HttpPost]
+        [Route("NewAccount")]
+        public void Post(string OwnerName, string AccountName)
+       => Repo.AddAccount(OwnerName, AccountName);
     }
 }

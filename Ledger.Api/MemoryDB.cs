@@ -21,5 +21,18 @@ namespace Ledger
         {
             Owners.Add(new AccountOwner { Name = name, Accounts = new List<Models.Account>() });
         }
+
+        public void AddAccount(string ownerName, string accountName)
+        {
+            var owner = Owners.Where(w => w.Name == ownerName).FirstOrDefault();
+            if (owner == null)
+            {
+                owner = new AccountOwner { Name = ownerName, Accounts = new List<Models.Account>() };
+                Owners.Add(owner);
+            }
+            if (owner.Accounts == null)
+                owner.Accounts = new List<Models.Account>();
+            owner.Accounts.Add(new Models.Account { Name = accountName });
+        }
     }
 }
