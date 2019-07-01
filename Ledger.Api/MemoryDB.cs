@@ -11,7 +11,6 @@ namespace Ledger
         public static readonly Lazy<MemoryDB> Instance = new Lazy<MemoryDB>(() => new MemoryDB());
         public List<AccountOwner> Owners { get; set; } = new List<AccountOwner>();
         public List<Asset> Assets { get; set; } = new List<Asset>() { new Asset { Ticker = "BTC" } };
-        public List<AccountEntry> AccountEntries { get; set; } = new List<AccountEntry>();
         public async Task<List<AccountOwner>> GetOwnersAsync()
         {
             var t = new Task<List<AccountOwner>>(() => { return Owners; });
@@ -35,9 +34,12 @@ namespace Ledger
             if (owner.Accounts == null)
                 owner.Accounts = new List<Account>();
 
-            owner.Accounts.Add(new Account { Name = accountName, OwnerName = ownerName,
-                                             Entries = AccountEntries.Where(w => w.Account.Name == ownerName 
-                                                                                            && w.Account.OwnerName == ownerName).OrderBy(o => o.Date).ToList()});
+            owner.Accounts.Add(new Account
+            {
+                Name = accountName,
+                OwnerName = ownerName,
+                Entries = new List<AccountEntry>()
+            });
         }
 
         public void AddEntry(string ownerName, string accountName, string ticker, decimal amount, DateTime date)
@@ -54,15 +56,21 @@ namespace Ledger
             if (account == null)
                 throw new Exception("unable to find account owned by:" + owner.Name);
 
-            AccountEntries.Add(new AccountEntry { Account = account, Asset = asset, Date = date, Amount = amount });
+            account.Entries.Add(new AccountEntry { Asset = asset, Date = date, Amount = amount });
         }
 
         public async Task<decimal> GetBalanceAsync(string ownerName, string accountName, string ticker)
         {
             var t = new Task<decimal>(() =>
             {
-                var Total = AccountEntries.Where(w => w.Account.OwnerName == ownerName && w.Account.Name == accountName && w.Asset.Ticker == ticker).Sum(s => s.Amount);
-                return Total;
+                var owner = Owners.Where(w => w.Name == ownerName).FirstOrDefault();
+                if (owner == null)
+                    return 0;
+                var account = owner.Accounts.Where(w => w.Name == accountName).FirstOrDefault();
+                if (account == null)
+                    return 0;
+
+                return account.GetBalance(ticker);
             });
             t.Start();
             return await t;
