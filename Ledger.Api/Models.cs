@@ -16,9 +16,9 @@ namespace Ledger.Models
     public class Account
     {
         public string Name { get; set; }
-        public AccountOwner Owner { get; set; }
+        public string OwnerName { get; set; }
         public List<AccountEntry> Entries { get; set; }
-
+        
     }
     public class AccountEntry
     {

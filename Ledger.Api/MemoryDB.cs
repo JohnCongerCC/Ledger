@@ -35,9 +35,9 @@ namespace Ledger
             if (owner.Accounts == null)
                 owner.Accounts = new List<Account>();
 
-            owner.Accounts.Add(new Account { Name = accountName, Owner = owner,
+            owner.Accounts.Add(new Account { Name = accountName, OwnerName = ownerName,
                                              Entries = AccountEntries.Where(w => w.Account.Name == ownerName 
-                                                                                            && w.Account.Owner.Name == ownerName).OrderBy(o => o.Date).ToList()});
+                                                                                            && w.Account.OwnerName == ownerName).OrderBy(o => o.Date).ToList()});
         }
 
         public void AddEntry(string ownerName, string accountName, string ticker, decimal amount, DateTime date)
@@ -61,7 +61,7 @@ namespace Ledger
         {
             var t = new Task<decimal>(() =>
             {
-                var Total = AccountEntries.Where(w => w.Account.Owner.Name == ownerName && w.Account.Name == accountName && w.Asset.Ticker == ticker).Sum(s => s.Amount);
+                var Total = AccountEntries.Where(w => w.Account.OwnerName == ownerName && w.Account.Name == accountName && w.Asset.Ticker == ticker).Sum(s => s.Amount);
                 return Total;
             });
             t.Start();
