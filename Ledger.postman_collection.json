@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "89dd9c80-3ca9-4dc3-af9e-e3a68cd9f49c",
+		"name": "Ledger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetOwners",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44322/api/Account/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44322",
+					"path": [
+						"api",
+						"Account",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOwner",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44322/api/Account/NewOwner?OwnerName=Jack",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44322",
+					"path": [
+						"api",
+						"Account",
+						"NewOwner"
+					],
+					"query": [
+						{
+							"key": "OwnerName",
+							"value": "Jack"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateAccount",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44322/api/Account/NewAccount?OwnerName=John&AccountName=WarehouseAccount",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44322",
+					"path": [
+						"api",
+						"Account",
+						"NewAccount"
+					],
+					"query": [
+						{
+							"key": "OwnerName",
+							"value": "John"
+						},
+						{
+							"key": "AccountName",
+							"value": "WarehouseAccount"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NewEntry",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44322/api/Account/NewEntry?OwnerName=John&AccountName=WarehouseAccount&Ticker=BTC&Amount=2.0&date=5/11/2018",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44322",
+					"path": [
+						"api",
+						"Account",
+						"NewEntry"
+					],
+					"query": [
+						{
+							"key": "OwnerName",
+							"value": "John"
+						},
+						{
+							"key": "AccountName",
+							"value": "WarehouseAccount"
+						},
+						{
+							"key": "Ticker",
+							"value": "BTC"
+						},
+						{
+							"key": "Amount",
+							"value": "2.0"
+						},
+						{
+							"key": "date",
+							"value": "5/11/2018"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBalance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44322/api/Account/GetBalance?OwnerName=john&AccountName=WarehouseAccount&Ticker=BTC",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44322",
+					"path": [
+						"api",
+						"Account",
+						"GetBalance"
+					],
+					"query": [
+						{
+							"key": "OwnerName",
+							"value": "john"
+						},
+						{
+							"key": "AccountName",
+							"value": "WarehouseAccount"
+						},
+						{
+							"key": "Ticker",
+							"value": "BTC"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
