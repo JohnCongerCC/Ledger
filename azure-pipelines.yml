@@ -15,3 +15,9 @@ variables:
 steps:
 - script: dotnet publish Ledger.sln
   displayName: 'dotnet publish'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
