@@ -18,6 +18,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.SourcesDirectory)/Ledger.Api/bin/Debug/netcoreapp2.2/publish/'
     ArtifactName: 'drop'
     publishLocation: 'Container'
